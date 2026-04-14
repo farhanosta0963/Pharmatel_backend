@@ -1,6 +1,6 @@
 # PharmaTel Backend
 
-Spring Boot 3 backend for PharmaTel (Java 17, Maven, JPA, Security JWT,Mail sending integration , Flyway, Lombok , Swagger).
+Spring Boot 3 backend for PharmaTel (Java 17, Maven, JPA, Security JWT, E-Mail sending integration , Flyway, Lombok , Swagger).
 
 ## Run
 
