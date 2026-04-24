@@ -1,6 +1,6 @@
 # PharmaTel Backend
 
-Spring Boot 3 backend for PharmaTel (Java 17, Maven, JPA, Security JWT, Flyway, Lombok).
+Spring Boot 3 backend for PharmaTel (Java 17, Maven, JPA, Security JWT, E-Mail sending integration , Flyway, Lombok , Swagger).
 
 ## Run
 
@@ -8,6 +8,9 @@ Spring Boot 3 backend for PharmaTel (Java 17, Maven, JPA, Security JWT, Flyway, 
 cd backend
 mvn spring-boot:run
 ```
+Swagger : http://localhost:8080/api/swagger-ui/index.html#/
+
+to review it in postman you can import the collection using this link : http://localhost:8080/api/v3/api-docs
 
 Server base URL: `http://localhost:8080/api`
 
