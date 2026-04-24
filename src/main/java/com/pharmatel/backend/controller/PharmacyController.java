@@ -94,9 +94,9 @@ public class PharmacyController {
 
     @GetMapping("/{id}/medicines")
     @Operation(summary = "List pharmacy medicines", description = "Returns medicines stocked in a pharmacy.")
-    public List<PharmacyMedicineDto> medicines(@PathVariable Integer id) {
+    public PageResponse<PharmacyMedicineDto> medicines(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
         log.info("Incoming list pharmacy medicines pharmacyId={}", id);
-        return pharmacyService.medicines(id);
+        return pharmacyService.medicines(id, page, size);
     }
 
     @GetMapping("/inventory")
@@ -116,6 +116,15 @@ public class PharmacyController {
         return pharmacyService.getInventoryById(id);
     }
 
+    @GetMapping("/myinventory")
+    @Operation(summary = "Get my inventory items", description = "Returns inventory items for the authenticated pharmacy.")
+    public PageResponse<PharmacyMedicineDto> myInventory(@AuthenticationPrincipal AppUserDetails user,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size) {
+        log.info("Incoming get my inventory user={}", user.getUsername());
+        return pharmacyService.listInventoryforMe(user,page,size);
+    }
+
     @PostMapping("/inventory")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create inventory item", description = "Creates a pharmacy medicine inventory record.")
@@ -123,7 +132,7 @@ public class PharmacyController {
         @AuthenticationPrincipal AppUserDetails user,
         @Valid @RequestBody CreatePharmacyMedicineRequest request
     ) {
-        log.info("Incoming create inventory pharmacyId={} medicineId={}", request.getPharmacyId(), request.getMedicineId());
+        log.info("Incoming create inventory  by user {} medicineId={}", user.getUsername(), request.getMedicineId());
         return pharmacyService.createInventory(user, request);
     }
 

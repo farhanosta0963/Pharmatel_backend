@@ -5,8 +5,6 @@ import lombok.Data;
 
 @Data
 public class CreatePharmacyMedicineRequest {
-    @NotNull(message = "pharmacyId is required")
-    private Integer pharmacyId;
     @NotNull(message = "medicineId is required")
     private Integer medicineId;
     @NotNull(message = "quantity is required")

@@ -20,6 +20,8 @@ import com.pharmatel.backend.security.AppRole;
 import com.pharmatel.backend.security.AppUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.hibernate.query.Page;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
@@ -86,15 +88,13 @@ public class PharmacyService {
         pharmacyRepository.delete(fetch(id));
     }
 
-    public List<PharmacyMedicineDto> medicines(Integer pharmacyId) {
+    public PageResponse<PharmacyMedicineDto> medicines(Integer pharmacyId, int page, int size) {
         log.info("List pharmacy medicines pharmacyId={}", pharmacyId);
         Pharmacy pharmacy = fetch(pharmacyId);
 
-        return pharmacyMedicinesRepository.findByPharmacyId(pharmacy.getId()).stream()
-            .map(pharmacyMapper::toMedicineDto)
-            .toList();
+        return PageResponse.from(pharmacyMedicinesRepository.findByPharmacyId(pharmacyId, PageRequest.of(page, size)).map(pharmacyMapper::toMedicineDto));
+    
     }
-    // TODO make inventory return only for the pharmacy that asked not all pharmacies, 
     
     public PageResponse<PharmacyMedicineDto> listInventory(int page, int size) {
         log.info("List pharmacy inventory page={} size={}", page, size);
@@ -103,7 +103,11 @@ public class PharmacyService {
 
     public PageResponse<PharmacyMedicineDto> listInventoryforMe(AppUserDetails user, int page, int size) {
         log.info("List pharmacy inventory page={} size={}", page, size);
-        return PageResponse.from(pharmacyMedicinesRepository.findAll(PageRequest.of(page, size)).map(pharmacyMapper::toMedicineDto));
+        Pharmacy pharmacy = pharmacyRepository.findByAccountId(user.getAccountId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Pharmacy account not found: " + user.getAccountId()));
+
+
+        return PageResponse.from(pharmacyMedicinesRepository.findByPharmacyId(pharmacy.getId(), PageRequest.of(page, size)).map(pharmacyMapper::toMedicineDto));
     }
 
     public PharmacyMedicineDto getInventoryById(Integer id) {
@@ -113,11 +117,15 @@ public class PharmacyService {
         return pharmacyMapper.toMedicineDto(pm);
     }
 
+   
+
     @Transactional
     public PharmacyMedicineDto createInventory(AppUserDetails user, CreatePharmacyMedicineRequest request) {
         ensurePharmacyUser(user);
-        log.info("Create pharmacy inventory pharmacyId={} medicineId={} by user={}", request.getPharmacyId(), request.getMedicineId(), user.getUsername());
-        Pharmacy pharmacy = fetch(request.getPharmacyId());
+        log.info("Create pharmacy inventory medicineId={} by user={}", request.getMedicineId(), user.getUsername());
+
+        Pharmacy pharmacy = pharmacyRepository.findByAccountId(user.getAccountId())
+            .orElseThrow(() -> new ResourceNotFoundException("Pharmacy account not found: " + user.getAccountId()));
         Medicine medicine = medicineRepository.findById(request.getMedicineId())
             .orElseThrow(() -> new ResourceNotFoundException("Medicine not found: " + request.getMedicineId()));
 
@@ -165,4 +173,6 @@ public class PharmacyService {
             throw new ForbiddenException("Only pharmacy users can modify pharmacy resources");
         }
     }
+
+    
 }
