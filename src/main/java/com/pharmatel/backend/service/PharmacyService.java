@@ -94,8 +94,14 @@ public class PharmacyService {
             .map(pharmacyMapper::toMedicineDto)
             .toList();
     }
-
+    // TODO make inventory return only for the pharmacy that asked not all pharmacies, 
+    
     public PageResponse<PharmacyMedicineDto> listInventory(int page, int size) {
+        log.info("List pharmacy inventory page={} size={}", page, size);
+        return PageResponse.from(pharmacyMedicinesRepository.findAll(PageRequest.of(page, size)).map(pharmacyMapper::toMedicineDto));
+    }
+
+    public PageResponse<PharmacyMedicineDto> listInventoryforMe(AppUserDetails user, int page, int size) {
         log.info("List pharmacy inventory page={} size={}", page, size);
         return PageResponse.from(pharmacyMedicinesRepository.findAll(PageRequest.of(page, size)).map(pharmacyMapper::toMedicineDto));
     }
@@ -121,7 +127,7 @@ public class PharmacyService {
         return pharmacyMapper.toMedicineDto(pharmacyMedicinesRepository.save(pm));
     }
 
-    @Transactional
+    @Transactional // TODO kinda redundant with createInventory, can be merged into one method with some checks
     public PharmacyMedicineDto updateInventory(AppUserDetails user, Integer id, UpdatePharmacyMedicineRequest request) {
         ensurePharmacyUser(user);
         log.info("Update pharmacy inventory id={} by user={}", id, user.getUsername());

@@ -16,6 +16,7 @@ public class BackendApplication {
        
         SpringApplication.run(BackendApplication.class, args);
         // TODO create an admin with this id 
+        // TODO maybe add the price of each medicine at the pharmacymedicine entity instead of medicine 
         //3f2c1a7e-9b6d-4c8f-91a2-6d8f4c2e9b11
     }
 

@@ -12,4 +12,6 @@ public interface PharmacyMedicinesRepository extends JpaRepository<PharmacyMedic
     List<PharmacyMedicines> findByPharmacyId(Integer pharmacyId);
     Optional<PharmacyMedicines> findByPharmacyIdAndMedicineId(Integer pharmacyId, Integer medicineId);
     Page<PharmacyMedicines> findAll(Pageable pageable);
+
+    //Page<PharmacyMedicines> findByPharmacyId(Integer pharmacyId, Pageable pageable);
 }

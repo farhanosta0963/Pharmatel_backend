@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface PharmacyRepository extends JpaRepository<Pharmacy, Integer> {
-
+    // TODO needs inspection maybe we can do it with jpa query instead of native query, also we can add pagination to it
     @Query(value = """
         select *
         from pharmacy p
