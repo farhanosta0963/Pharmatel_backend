@@ -124,7 +124,7 @@ public class PharmacyController {
         log.info("Incoming get my inventory user={}", user.getUsername());
         return pharmacyService.listInventoryforMe(user,page,size);
     }
-
+    
     @PostMapping("/inventory")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create inventory item", description = "Creates a pharmacy medicine inventory record.")

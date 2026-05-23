@@ -37,19 +37,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.requireCsrfProtectionMatcher(request -> {
-                String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-                boolean safeMethod = HttpMethod.GET.matches(request.getMethod())
-                    || HttpMethod.HEAD.matches(request.getMethod())
-                    || HttpMethod.OPTIONS.matches(request.getMethod())
-                    || HttpMethod.TRACE.matches(request.getMethod());
-                if (safeMethod) {
-                    return false;
-                }
-                boolean hasBearer = authHeader != null && authHeader.startsWith("Bearer ");
-                boolean hasCookie = request.getHeader(HttpHeaders.COOKIE) != null;
-                return !hasBearer && hasCookie;
-            }))
+            // .csrf(csrf -> csrf.requireCsrfProtectionMatcher(request -> {
+            //     String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+            //     boolean safeMethod = HttpMethod.GET.matches(request.getMethod())
+            //         || HttpMethod.HEAD.matches(request.getMethod())
+            //         || HttpMethod.OPTIONS.matches(request.getMethod())
+            //         || HttpMethod.TRACE.matches(request.getMethod());
+            //     if (safeMethod) {
+            //         return false;
+            //     }
+            //     boolean hasBearer = authHeader != null && authHeader.startsWith("Bearer ");
+            //     boolean hasCookie = request.getHeader(HttpHeaders.COOKIE) != null;
+            //     return !hasBearer && hasCookie;
+            // }))
+            .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
