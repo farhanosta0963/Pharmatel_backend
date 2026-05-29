@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   db:
     image: postgis/postgis:17-3.4
@@ -14,13 +16,20 @@ services:
 
   app:
     build: .
-    container_name: pharmatel-backend
     restart: unless-stopped
+
+    container_name: pharmatel-backend
     depends_on:
       - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/pharmatel
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123far
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: "true"
     ports:
       - "8080:8080"
-
+  
   proxy:
     image: nginx:1.27-alpine
     container_name: pharmatel-proxy
@@ -31,7 +40,5 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-
-# MUST be at the ROOT level (not inside services)
 volumes:
   pgdata:
