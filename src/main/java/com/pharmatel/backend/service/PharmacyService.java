@@ -60,7 +60,7 @@ public class PharmacyService {
 
     @Transactional
     public PharmacyDto create(AppUserDetails user, CreatePharmacyRequest request) {
-        ensurePharmacyUser(user);
+        // ensurePharmacyUser(user);
         log.info("Creating pharmacy name={} by user={}", request.getName(), user.getUsername());
         Pharmacy pharmacy = Pharmacy.builder()
             .name(request.getName())
@@ -72,7 +72,7 @@ public class PharmacyService {
 
     @Transactional
     public PharmacyDto update(AppUserDetails user, Integer id, UpdatePharmacyRequest request) {
-        ensurePharmacyUser(user);
+        // ensurePharmacyUser(user);
         log.info("Updating pharmacy id={} by user={}", id, user.getUsername());
         Pharmacy pharmacy = fetch(id);
         pharmacy.setName(request.getName());
@@ -83,7 +83,7 @@ public class PharmacyService {
 
     @Transactional
     public void delete(AppUserDetails user, Integer id) {
-        ensurePharmacyUser(user);
+        // ensurePharmacyUser(user);
         log.info("Deleting pharmacy id={} by user={}", id, user.getUsername());
         pharmacyRepository.delete(fetch(id));
     }
@@ -121,7 +121,7 @@ public class PharmacyService {
 
     @Transactional
     public PharmacyMedicineDto createInventory(AppUserDetails user, CreatePharmacyMedicineRequest request) {
-        ensurePharmacyUser(user);
+        // ensurePharmacyUser(user);
         log.info("Create pharmacy inventory medicineId={} by user={}", request.getMedicineId(), user.getUsername());
 
         Pharmacy pharmacy = pharmacyRepository.findByAccountId(user.getAccountId())
@@ -137,7 +137,7 @@ public class PharmacyService {
 
     @Transactional // TODO kinda redundant with createInventory, can be merged into one method with some checks
     public PharmacyMedicineDto updateInventory(AppUserDetails user, Integer id, UpdatePharmacyMedicineRequest request) {
-        ensurePharmacyUser(user);
+        // ensurePharmacyUser(user);
         log.info("Update pharmacy inventory id={} by user={}", id, user.getUsername());
         PharmacyMedicines pm = pharmacyMedicinesRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Pharmacy medicine not found: " + id));
@@ -147,7 +147,7 @@ public class PharmacyService {
 
     @Transactional
     public void deleteInventory(AppUserDetails user, Integer id) {
-        ensurePharmacyUser(user);
+        // ensurePharmacyUser(user);
         log.info("Delete pharmacy inventory id={} by user={}", id, user.getUsername());
         PharmacyMedicines pm = pharmacyMedicinesRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Pharmacy medicine not found: " + id));

@@ -84,9 +84,10 @@ public class ObservationService {
     }
 
     public PageResponse<ObservationDto> listAll(AppUserDetails user, int page, int size) {
-        if (user == null || user.getRole() != AppRole.PHARMACY) {
-            throw new ForbiddenException("Only pharmacy users can list all observations");
-        }
+        // if (user == null || user.getRole() != AppRole.PHARMACY)
+        //      {
+        //     throw new ForbiddenException("Only pharmacy users can list all observations");
+        // }
         log.info("List all observations page={} size={} user={}", page, size, user.getUsername());
         return PageResponse.from(observationRepository.findAll(PageRequest.of(page, size)).map(observationMapper::toDto));
     }

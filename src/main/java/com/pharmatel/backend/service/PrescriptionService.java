@@ -113,9 +113,9 @@ public class PrescriptionService {
     }
 
     public PageResponse<PrescriptionDto> listAll(AppUserDetails user, int page, int size) {
-        if (user == null || user.getRole() != AppRole.PHARMACY) {
-            throw new ForbiddenException("Only pharmacy users can list all prescriptions");
-        }
+        // if (user == null || user.getRole() != AppRole.PHARMACY) {
+        //     throw new ForbiddenException("Only pharmacy users can list all prescriptions");
+        // }
         log.info("Listing all prescriptions page={} size={} user={}", page, size, user.getUsername());
         return PageResponse.from(prescriptionRepository.findByDeletedFalse(PageRequest.of(page, size)).map(prescriptionMapper::toDto));
     }
