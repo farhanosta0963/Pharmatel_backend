@@ -8,5 +8,7 @@ import lombok.Value;
 public class PharmacyDto {
     Integer id;
     String name;
+    Double lat;
+    Double lng;
     String pharmacistName;
 }

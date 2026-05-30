@@ -10,9 +10,17 @@ import org.springframework.stereotype.Component;
 public class PharmacyMapper {
 
     public PharmacyDto toDto(Pharmacy pharmacy) {
+        Double lat = null;
+        Double lng = null;
+        if (pharmacy.getLocation() != null) {
+            lat = pharmacy.getLocation().getY();
+            lng = pharmacy.getLocation().getX();
+        }
         return PharmacyDto.builder()
             .id(pharmacy.getId())
             .name(pharmacy.getName())
+            .lat(lat)
+            .lng(lng)
             .pharmacistName(pharmacy.getPharmacistName())
             .build();
     }

@@ -82,7 +82,7 @@ public class PrescriptionService {
         
         Prescription saved = prescriptionRepository.save(prescription);
 
-        createDoseSchedules(saved);
+        // createDoseSchedules(saved);
 
         // if (request.getScheduleTimes() != null) {
         //     List<DoseSchedule> schedules = request.getScheduleTimes().stream()
@@ -166,38 +166,38 @@ public class PrescriptionService {
     private Boolean checkIfPharmacist ( AppUserDetails user) {
         return user != null && user.getRole() == AppRole.PHARMACY;
     }
-    private void createDoseSchedules(Prescription prescription) {
-        int intervalHours = extractIntervalHours(prescription.getFrequency()); // e.g. "2 hours" -> 2
+    // private void createDoseSchedules(Prescription prescription) {
+    //     int intervalHours = extractIntervalHours(prescription.getFrequency()); // e.g. "2 hours" -> 2
 
-        LocalDateTime cursor = prescription.getStartDate(); // start from startDate
-        LocalDateTime end = prescription.getEndDate();
+    //     LocalDateTime cursor = prescription.getStartDate(); // start from startDate
+    //     LocalDateTime end = prescription.getEndDate();
 
-        if (intervalHours <= 0) {
-            throw new IllegalArgumentException("Frequency must be a positive hour interval");
-        }
-        if (cursor == null || end == null || cursor.isAfter(end)) {
-            return;
-        }
+    //     if (intervalHours <= 0) {
+    //         throw new IllegalArgumentException("Frequency must be a positive hour interval");
+    //     }
+    //     if (cursor == null || end == null || cursor.isAfter(end)) {
+    //         return;
+    //     }
 
-        List<DoseSchedule> schedules = new ArrayList<>();
-        LocalDateTime now = LocalDateTime.now();
+    //     List<DoseSchedule> schedules = new ArrayList<>();
+    //     LocalDateTime now = LocalDateTime.now();
 
-        while (!cursor.isAfter(end)) {
-            schedules.add(DoseSchedule.builder()
-                    .prescription(prescription)
-                    .takeAt(cursor)
-                    .taken(false)
-                    .takenAt(null)
-                    .patientPersonalNote(null)
-                    .createdAt(now)
-                    .deleted(false)
-                    .build());
+    //     while (!cursor.isAfter(end)) {
+    //         schedules.add(DoseSchedule.builder()
+    //                 .prescription(prescription)
+    //                 .takeAt(cursor)
+    //                 .taken(false)
+    //                 .takenAt(null)
+    //                 .patientPersonalNote(null)
+    //                 .createdAt(now)
+    //                 .deleted(false)
+    //                 .build());
 
-            cursor = cursor.plusHours(intervalHours);
-        }
+    //         cursor = cursor.plusHours(intervalHours);
+    //     }
 
-        doseScheduleRepository.saveAll(schedules);
-    }
+    //     doseScheduleRepository.saveAll(schedules);
+    // }
 
     private int extractIntervalHours(String frequency) {
         // supports: "2 hours", "6h", "every 4 hours"

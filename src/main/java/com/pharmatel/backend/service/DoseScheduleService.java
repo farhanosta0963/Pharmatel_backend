@@ -111,6 +111,7 @@ public class DoseScheduleService {
         if (request != null) {
             schedule.setPatientPersonalNote(request.getPatientPersonalNote());
         }
+        
 
         return doseScheduleMapper.toDto(doseScheduleRepository.save(schedule));
     }
