@@ -11,7 +11,6 @@ public class DoseScheduleMapper {
         return DoseScheduleDto.builder()
             .id(doseSchedule.getId())
             .prescriptionId(doseSchedule.getPrescription().getId())
-            .takeAt(doseSchedule.getTakeAt())
             .taken(doseSchedule.getTaken())
             .takenAt(doseSchedule.getTakenAt())
             .patientPersonalNote(doseSchedule.getPatientPersonalNote())

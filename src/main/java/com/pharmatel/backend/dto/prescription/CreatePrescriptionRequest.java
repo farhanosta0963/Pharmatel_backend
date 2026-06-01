@@ -22,4 +22,9 @@ public class CreatePrescriptionRequest {
     private Boolean byPharmacist;
     private LocalDateTime endDate;
     private String foodRequirement;
+
+    private String note;
+    private Boolean byDoctor;
+    private String doctorName;
+    private Integer timeShift;
 }

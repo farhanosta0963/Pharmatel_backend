@@ -53,6 +53,21 @@ public class Prescription {
     @Column(name = "by_pharmacist")
     private Boolean byPharmacist;
 
+    @Column(name = "note")
+    private String note; 
+
+    @Column(name = "by_doctor")
+    private Boolean byDoctor;
+
+    @Column(name = "doctor_name")
+    private String doctorName;
+
+    @Column(name = "time_shift")
+    private Integer timeShift;
+
+    @Column(name = "is_done")
+    private Boolean isDone = false;
+
     @ManyToOne 
     @JoinColumn(name = "pharmacy_id")
     private Pharmacy pharmacy;
@@ -62,4 +77,5 @@ public class Prescription {
 
     @Column(name = "deleted")
     private Boolean deleted;
+
 }

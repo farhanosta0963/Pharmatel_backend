@@ -85,6 +85,18 @@ public class PrescriptionController {
         return prescriptionService.update(user, id, request);
     }
 
+    @PostMapping("/prescriptions/{id}/done")
+    @Operation(summary = "Finish prescription", description = "marks a prescription as done.")
+    @ResponseStatus(HttpStatus.OK)
+    public void markDone(
+        @AuthenticationPrincipal AppUserDetails user,
+        @PathVariable UUID id
+    ) {
+        log.info("Incoming update prescription id={}", id);
+        prescriptionService.markDone(user, id);
+    }
+
+
     @DeleteMapping("/prescriptions/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete prescription", description = "Soft-deletes prescription and linked schedules.")

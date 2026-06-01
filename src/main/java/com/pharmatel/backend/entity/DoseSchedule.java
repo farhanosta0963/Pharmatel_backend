@@ -34,9 +34,6 @@ public class DoseSchedule {
     @JoinColumn(name = "prescription_id")
     private Prescription prescription;
 
-    @Column(name = "take_at")
-    private LocalDateTime takeAt;
-
     @Column(name = "taken")
     private Boolean taken;
 

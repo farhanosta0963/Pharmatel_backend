@@ -74,7 +74,6 @@ public class DoseScheduleService {
 
         DoseSchedule schedule = DoseSchedule.builder()
             .prescription(prescription)
-            .takeAt(request.getTakeAt())
             .taken(Boolean.TRUE.equals(request.getTaken()))
             .takenAt(request.getTakenAt())
             .patientPersonalNote(request.getPatientPersonalNote())
@@ -91,7 +90,6 @@ public class DoseScheduleService {
             .filter(ds -> !Boolean.TRUE.equals(ds.getDeleted()))
             .orElseThrow(() -> new ResourceNotFoundException("Dose schedule not found: " + id));
         ensurePatientOrPharmacy(user, schedule.getPrescription().getPatient());
-        if (request.getTakeAt() != null) schedule.setTakeAt(request.getTakeAt());
         if (request.getTaken() != null) schedule.setTaken(request.getTaken());
         if (request.getTakenAt() != null) schedule.setTakenAt(request.getTakenAt());
         if (request.getPatientPersonalNote() != null) schedule.setPatientPersonalNote(request.getPatientPersonalNote());

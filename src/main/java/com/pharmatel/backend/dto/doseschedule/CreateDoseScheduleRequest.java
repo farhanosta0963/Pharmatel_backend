@@ -10,8 +10,7 @@ import java.util.UUID;
 public class CreateDoseScheduleRequest {
     @NotNull(message = "prescriptionId is required")
     private UUID prescriptionId;
-    @NotNull(message = "takeAt is required")
-    private LocalDateTime takeAt;
+   
     private Boolean taken;
     private LocalDateTime takenAt;
     private String patientPersonalNote;

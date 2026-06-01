@@ -93,6 +93,11 @@ CREATE TABLE prescription (
     by_pharmacist BOOLEAN,
     pharmacy_id INTEGER,
     food_requirement VARCHAR(255),
+    note TEXT,
+    by_doctor BOOLEAN,
+    doctor_name TEXT,
+    time_shift INTEGER NOT NULL DEFAULT 0 ,
+    is_done BOOLEAN NOT NULL DEFAULT FALSE, 
     deleted BOOLEAN,
     CONSTRAINT fk_prescription_patient
         FOREIGN KEY (patient_id) REFERENCES patient(id),
@@ -106,7 +111,6 @@ CREATE TABLE prescription (
 CREATE TABLE dose_schedule (
     id SERIAL PRIMARY KEY,
     prescription_id UUID,
-    take_at TIMESTAMP,
     taken BOOLEAN,
     taken_at TIMESTAMP,
     patient_personal_note TEXT,
@@ -166,7 +170,6 @@ CREATE TABLE observation (
     value_boolean BOOLEAN,
     value_numeric FLOAT8,
     value_text TEXT,
-    symptom_measurement_id UUID,
     CONSTRAINT fk_observation_session
         FOREIGN KEY (observation_session_id) REFERENCES observation_session(id)
     

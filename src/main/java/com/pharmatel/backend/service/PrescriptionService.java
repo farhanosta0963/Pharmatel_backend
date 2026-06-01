@@ -20,6 +20,7 @@ import com.pharmatel.backend.repository.PrescriptionRepository;
 import com.pharmatel.backend.security.AppRole;
 import com.pharmatel.backend.security.AppUserDetails;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -77,6 +78,10 @@ public class PrescriptionService {
             .byPharmacist(checkIfPharmacist(user))
             .pharmacy(pharmacy)
             .foodRequirement(request.getFoodRequirement())
+            .note(request.getNote())
+            .byDoctor(request.getByDoctor())
+            .timeShift(request.getTimeShift())
+            .doctorName(request.getDoctorName())
             .deleted(false)
             .build();
         
@@ -144,6 +149,11 @@ public class PrescriptionService {
             Pharmacy pharmacy = pharmacyRepository.findById(request.getPharmacyId())
                 .orElseThrow(() -> new ResourceNotFoundException("Pharmacy not found: " + request.getPharmacyId()));
             prescription.setPharmacy(pharmacy);
+        if (request.getNote() != null) prescription.setNote(request.getNote());
+        if (request.getByDoctor() != null) prescription.setByDoctor(request.getByDoctor());
+        if (request.getDoctorName() != null) prescription.setDoctorName(request.getDoctorName());
+        if (request.getTimeShift() != null) prescription.setTimeShift(request.getTimeShift());
+        if (request.getIsDone() != null) prescription.setIsDone(request.getIsDone());
         }
         return prescriptionMapper.toDto(prescriptionRepository.save(prescription));
     }
@@ -221,5 +231,14 @@ public class PrescriptionService {
         if (patient.getAccount() == null || !patient.getAccount().getId().equals(user.getAccountId())) {
             throw new ForbiddenException("You cannot access this patient's prescriptions");
         }
+    }
+
+    public void markDone(AppUserDetails user, UUID id) {
+        log.info("Mark prescription done id={} user={}", id, user == null ? null : user.getUsername());
+        Prescription prescription = prescriptionRepository.findByIdAndDeletedFalse(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Prescription not found: " + id));
+        ensurePatientOrPharmacy(user, prescription.getPatient());
+        prescription.setIsDone(true);
+        prescriptionRepository.save(prescription);
     }
 }
