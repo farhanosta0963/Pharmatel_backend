@@ -239,6 +239,7 @@ public class PrescriptionService {
             .orElseThrow(() -> new ResourceNotFoundException("Prescription not found: " + id));
         ensurePatientOrPharmacy(user, prescription.getPatient());
         prescription.setIsDone(true);
+        prescription.setEndDate(LocalDateTime.now());
         prescriptionRepository.save(prescription);
     }
 }
