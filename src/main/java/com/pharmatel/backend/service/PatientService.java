@@ -13,6 +13,8 @@ import com.pharmatel.backend.repository.AccountRepository;
 import com.pharmatel.backend.repository.PatientRepository;
 import com.pharmatel.backend.security.AppRole;
 import com.pharmatel.backend.security.AppUserDetails;
+import com.pharmatel.backend.security.RoleUtil;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -44,7 +46,15 @@ public class PatientService {
     public PatientDto getById(AppUserDetails user, Integer id) {
         log.info("Get patient id={} by user={}", id, user == null ? null : user.getUsername());
         Patient patient = fetchEntity(id);
-        ensureCanAccess(user, patient);
+        return patientMapper.toDto(patient);
+    }
+
+    public PatientDto getByUsername(AppUserDetails user, String username) {
+        log.info("Get patient username={} by user={}", username, user == null ? null : user.getUsername());
+        Account account = accountRepository.findByUsername(RoleUtil.withPrefix(username, AppRole.PATIENT))
+            .orElseThrow(() -> new ResourceNotFoundException("Account not found: " + username));
+        Patient patient = patientRepository.findByAccountId(account.getId())
+            .orElseThrow(() -> new ResourceNotFoundException("Patient not found: " + username));
         return patientMapper.toDto(patient);
     }
 

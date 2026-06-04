@@ -52,6 +52,16 @@ public class PatientController {
         return patientService.getById(user, id);
     }
 
+    @GetMapping("/by-username/{username}")
+    @Operation(summary = "Get patient by username", description = "Returns patient details by unique username.")
+    public PatientDto getByUsername(
+        @AuthenticationPrincipal AppUserDetails user,
+        @PathVariable String username    ) {
+        log.info("Incoming get patient username={}", username);
+        return patientService.getByUsername(user, username);
+    }
+
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create patient", description = "Creates a new patient profile using request DTO.")

@@ -11,4 +11,4 @@ import java.util.UUID;
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
     Optional<Patient> findByAccountId(UUID accountId);
     Page<Patient> findByNameContainingIgnoreCase(String name, Pageable pageable);
-}
+}   
