@@ -96,7 +96,7 @@ CREATE TABLE prescription (
     note TEXT,
     by_doctor BOOLEAN,
     doctor_name TEXT,
-    time_shift INTEGER NOT NULL DEFAULT 0 ,
+    time_shift INTEGER DEFAULT 0 ,
     is_done BOOLEAN NOT NULL DEFAULT FALSE, 
     deleted BOOLEAN,
     CONSTRAINT fk_prescription_patient

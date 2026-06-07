@@ -20,7 +20,6 @@ public class CreatePrescriptionRequest {
     private String frequency;
     private LocalDateTime startDate;
     private Boolean byPharmacist;
-    private LocalDateTime endDate;
     private String foodRequirement;
 
     private String note;

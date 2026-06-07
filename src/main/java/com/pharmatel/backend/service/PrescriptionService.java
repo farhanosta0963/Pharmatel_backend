@@ -73,15 +73,15 @@ public class PrescriptionService {
             .dose(request.getDose())
             .frequency(request.getFrequency())
             .startDate(request.getStartDate())
-            .endDate(request.getEndDate())
             .issuedAt(LocalDateTime.now())
             .byPharmacist(checkIfPharmacist(user))
             .pharmacy(pharmacy)
             .foodRequirement(request.getFoodRequirement())
             .note(request.getNote())
             .byDoctor(request.getByDoctor())
-            .timeShift(request.getTimeShift())
+            .timeShift((request.getTimeShift() != null) ? request.getTimeShift() : 0)
             .doctorName(request.getDoctorName())
+            .isDone(false)
             .deleted(false)
             .build();
         
@@ -153,7 +153,8 @@ public class PrescriptionService {
         if (request.getByDoctor() != null) prescription.setByDoctor(request.getByDoctor());
         if (request.getDoctorName() != null) prescription.setDoctorName(request.getDoctorName());
         if (request.getTimeShift() != null) prescription.setTimeShift(request.getTimeShift());
-        if (request.getIsDone() != null) prescription.setIsDone(request.getIsDone());
+        if (request.getIsDone() != null) prescription.setIsDone(request.getIsDone()); 
+
         }
         return prescriptionMapper.toDto(prescriptionRepository.save(prescription));
     }
