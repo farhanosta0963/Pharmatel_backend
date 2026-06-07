@@ -22,4 +22,9 @@ public class PrescriptionDto {
     Boolean byPharmacist;
     Integer pharmacyId;
     String foodRequirement;
+    String note;
+    Boolean byDoctor;
+    Integer timeShift;
+    String doctorName;
+    Boolean isDone; 
 }

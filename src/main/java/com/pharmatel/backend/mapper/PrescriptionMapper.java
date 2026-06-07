@@ -21,6 +21,11 @@ public class PrescriptionMapper {
             .byPharmacist(prescription.getByPharmacist())
             .pharmacyId(prescription.getPharmacy() == null ? null : prescription.getPharmacy().getId())
             .foodRequirement(prescription.getFoodRequirement())
+            .note(prescription.getNote())
+            .isDone(prescription.getIsDone())
+            .byDoctor(prescription.getByDoctor())
+            .timeShift(prescription.getTimeShift())
+            .doctorName(prescription.getDoctorName())   
             .build();
     }
 }
