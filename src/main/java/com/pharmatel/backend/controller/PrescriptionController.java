@@ -43,7 +43,7 @@ public class PrescriptionController {
         log.info("Incoming create prescription patientId={} medicineId={}", request.getPatientId(), request.getMedicineId());
         return prescriptionService.create(user, request);
     }
-
+    
     @GetMapping("/prescriptions")
     @Operation(summary = "List prescriptions", description = "Returns paginated prescriptions.")
     public PageResponse<PrescriptionDto> list(

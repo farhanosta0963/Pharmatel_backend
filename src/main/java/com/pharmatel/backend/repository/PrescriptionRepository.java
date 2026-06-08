@@ -13,4 +13,7 @@ public interface PrescriptionRepository extends JpaRepository<Prescription, UUID
 
     Optional<Prescription> findByIdAndDeletedFalse(UUID id);
     Page<Prescription> findByDeletedFalse(Pageable pageable);
+    
+    @org.springframework.data.jpa.repository.Query("SELECT p FROM Prescription p WHERE p.isDone = false AND (p.deleted = false OR p.deleted IS NULL)")
+    java.util.List<Prescription> findActivePrescriptions();
 }

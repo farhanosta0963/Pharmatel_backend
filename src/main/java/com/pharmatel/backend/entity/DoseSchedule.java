@@ -43,6 +43,9 @@ public class DoseSchedule {
     @Column(name = "patient_personal_note")
     private String patientPersonalNote;
 
+    @Column(name = "scheduled_at")
+    private LocalDateTime scheduledAt;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

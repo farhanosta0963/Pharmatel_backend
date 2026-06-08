@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.UUID;
+import java.time.LocalDateTime;
 
 public interface DoseScheduleRepository extends JpaRepository<DoseSchedule, Integer> {
 
@@ -22,5 +23,8 @@ public interface DoseScheduleRepository extends JpaRepository<DoseSchedule, Inte
     Page<DoseSchedule> findPatientDoseSchedules(@Param("patientId") Integer patientId, Pageable pageable);
 
     List<DoseSchedule> findByPrescriptionId(UUID prescriptionId);
+
+    List<DoseSchedule> findByPrescriptionIdAndScheduledAtAfter(UUID prescriptionId, LocalDateTime from);
+
     Page<DoseSchedule> findByDeletedFalse(Pageable pageable);
 }
