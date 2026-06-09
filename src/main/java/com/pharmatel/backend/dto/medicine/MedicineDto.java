@@ -11,8 +11,6 @@ import java.util.UUID;
 public class MedicineDto {
     Integer id;
     String name;
-    String buyPrice;
-    String sellPrice;
     String pharmaceuticalForm;
     String box;
     String capacity;

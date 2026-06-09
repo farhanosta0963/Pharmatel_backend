@@ -10,4 +10,6 @@ public class PharmacyMedicineDto {
     Integer medicineId;
     String medicineName;
     Integer quantity;
+    Double price;
+    Boolean available;
 }

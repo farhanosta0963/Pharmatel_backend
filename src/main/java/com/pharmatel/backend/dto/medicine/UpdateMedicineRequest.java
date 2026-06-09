@@ -10,8 +10,6 @@ import java.math.BigDecimal;
 public class UpdateMedicineRequest {
     @NotBlank(message = "name is required")
     private String name;
-    private String buyPrice;
-    private String sellPrice;
     private String pharmaceuticalForm;
     private String box;
     private String capacity;

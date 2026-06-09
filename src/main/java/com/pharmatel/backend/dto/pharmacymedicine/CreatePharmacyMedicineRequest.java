@@ -9,4 +9,7 @@ public class CreatePharmacyMedicineRequest {
     private Integer medicineId;
     @NotNull(message = "quantity is required")
     private Integer quantity;
+
+    private Double price;
+    private Boolean available;
 }

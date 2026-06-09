@@ -74,6 +74,8 @@ CREATE TABLE pharmacy_medicines (
     pharmacy_id INTEGER,
     medicine_id INTEGER,
     quantity INTEGER,
+    available BOOLEAN,
+    price DOUBLE PRECISION,
     CONSTRAINT fk_pm_pharmacy
         FOREIGN KEY (pharmacy_id) REFERENCES pharmacy(id),
     CONSTRAINT fk_pm_medicine
@@ -116,6 +118,7 @@ CREATE TABLE dose_schedule (
     patient_personal_note TEXT,
     created_at TIMESTAMP,
     deleted BOOLEAN,
+    scheduled_at TIMESTAMP,
     CONSTRAINT fk_dose_prescription
         FOREIGN KEY (prescription_id) REFERENCES prescription(id)
 );

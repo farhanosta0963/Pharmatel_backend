@@ -55,6 +55,18 @@ public class PharmacyController {
         return pharmacyService.findNearby(lat, lng);
     }
 
+    @GetMapping("/nearbyformedicine")
+    @Operation(summary = "Find nearby pharmacies for specific medicine", description = "Returns pharmacies ordered by distance from coordinates for a specific medicine.")
+    public List<PharmacyDto> nearbyformedicine(@RequestParam double lat, @RequestParam double lng, @RequestParam Integer medicineId) {
+        log.info("Incoming nearby pharmacies lat={} lng={} medicineId={}", lat, lng, medicineId);
+        return pharmacyService.findNearbyformedicine(lat, lng, medicineId);
+    }
+
+    @GetMapping("/averageprice")
+    public Double averagePrice(@RequestParam Integer medicineId) {
+        return pharmacyService.findAveragePriceByMedicineId(medicineId);
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Get pharmacy by ID", description = "Returns a single pharmacy by identifier.")
     public PharmacyDto get(@PathVariable Integer id) {

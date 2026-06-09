@@ -21,4 +21,19 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, Integer> {
 
     Optional<Pharmacy> findByAccountId(UUID accountId);
     Optional<Pharmacy> findByNameIgnoreCase(String name);
+
+    @Query(value = """
+        select *
+        from pharmacy p
+        where p.location is not null
+        and exists (
+            select 1
+            from pharmacy_medicines pm
+            where pm.pharmacy_id = p.id
+            and pm.medicine_id = :medicineId
+            and pm.available = true
+        )
+        order by ST_Distance(p.location, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography)
+        """, nativeQuery = true)
+    List<Pharmacy> findNearbyformedicine(@Param("lat") double lat, @Param("lng") double lng, @Param("medicineId") Integer medicineId);
 }

@@ -11,8 +11,6 @@ public class MedicineMapper {
         return MedicineDto.builder()
             .id(medicine.getId())
             .name(medicine.getName())
-            .buyPrice(medicine.getBuyPrice())
-            .sellPrice(medicine.getSellPrice())
             .pharmaceuticalForm(medicine.getPharmaceuticalForm())
             .box(medicine.getBox())
             .capacity(medicine.getCapacity())

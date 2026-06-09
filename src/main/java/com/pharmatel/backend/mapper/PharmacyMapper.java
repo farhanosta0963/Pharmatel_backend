@@ -31,6 +31,8 @@ public class PharmacyMapper {
             .medicineId(pharmacyMedicines.getMedicine().getId())
             .medicineName(pharmacyMedicines.getMedicine().getName())
             .quantity(pharmacyMedicines.getQuantity())
+            .price(pharmacyMedicines.getPrice())
+            .available(pharmacyMedicines.getAvailable())
             .build();
     }
 }

@@ -53,6 +53,11 @@ public class PharmacyService {
         return pharmacyRepository.findNearby(lat, lng).stream().map(pharmacyMapper::toDto).toList();
     }
 
+    public List<PharmacyDto> findNearbyformedicine(double lat, double lng, Integer medicineId) {
+        log.info("Listing nearby pharmacies lat={} lng={} medicineId={}", lat, lng, medicineId);
+        return pharmacyRepository.findNearbyformedicine(lat, lng, medicineId).stream().map(pharmacyMapper::toDto).toList();
+    }
+
     public PharmacyDto getById(Integer id) {
         log.info("Get pharmacy id={}", id);
         return pharmacyMapper.toDto(fetch(id));
@@ -132,6 +137,8 @@ public class PharmacyService {
         PharmacyMedicines pm = pharmacyMedicinesRepository.findByPharmacyIdAndMedicineId(pharmacy.getId(), medicine.getId())
             .orElse(PharmacyMedicines.builder().pharmacy(pharmacy).medicine(medicine).build());
         pm.setQuantity(request.getQuantity());
+        pm.setPrice(request.getPrice());
+        pm.setAvailable(request.getAvailable());
         return pharmacyMapper.toMedicineDto(pharmacyMedicinesRepository.save(pm));
     }
 
@@ -142,6 +149,8 @@ public class PharmacyService {
         PharmacyMedicines pm = pharmacyMedicinesRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Pharmacy medicine not found: " + id));
         pm.setQuantity(request.getQuantity());
+        pm.setPrice(request.getPrice());
+        pm.setAvailable(request.getAvailable());
         return pharmacyMapper.toMedicineDto(pharmacyMedicinesRepository.save(pm));
     }
 
@@ -172,6 +181,10 @@ public class PharmacyService {
         if (user == null || user.getRole() != AppRole.PHARMACY) {
             throw new ForbiddenException("Only pharmacy users can modify pharmacy resources");
         }
+    }
+
+    public Double findAveragePriceByMedicineId(Integer medicineId) {
+        return pharmacyMedicinesRepository.findAveragePriceByMedicineId(medicineId);
     }
 
     

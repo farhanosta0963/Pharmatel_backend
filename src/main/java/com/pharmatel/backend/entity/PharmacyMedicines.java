@@ -35,5 +35,9 @@ public class PharmacyMedicines {
     @JoinColumn(name = "medicine_id")
     private Medicine medicine;
 
+    private Double price;
+
+    private Boolean available;
+
     private Integer quantity;
 }

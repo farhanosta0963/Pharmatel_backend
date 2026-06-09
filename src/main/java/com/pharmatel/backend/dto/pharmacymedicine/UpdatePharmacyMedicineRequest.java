@@ -7,4 +7,7 @@ import lombok.Data;
 public class UpdatePharmacyMedicineRequest {
     @NotNull(message = "quantity is required")
     private Integer quantity;
+
+    private Double price;
+    private Boolean available;
 }

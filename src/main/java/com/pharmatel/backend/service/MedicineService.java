@@ -65,8 +65,6 @@ public class MedicineService {
 
         Medicine medicine = Medicine.builder()
             .name(request.getName())
-            .buyPrice(request.getBuyPrice())
-            .sellPrice(request.getSellPrice())
             .pharmaceuticalForm(request.getPharmaceuticalForm())
             .box(request.getBox())
             .capacity(request.getCapacity())
@@ -91,8 +89,6 @@ public class MedicineService {
         Boolean byphBoolean = user.getRole() == AppRole.PHARMACY ? true : false;
 
         medicine.setName(request.getName());
-        medicine.setBuyPrice(request.getBuyPrice());
-        medicine.setSellPrice(request.getSellPrice());
         medicine.setPharmaceuticalForm(request.getPharmaceuticalForm());
         medicine.setBox(request.getBox());
         medicine.setCapacity(request.getCapacity());

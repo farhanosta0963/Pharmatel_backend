@@ -1,1 +1,0 @@
-ALTER TABLE dose_schedule ADD COLUMN scheduled_at TIMESTAMP;
