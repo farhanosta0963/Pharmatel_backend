@@ -138,7 +138,11 @@ public class PharmacyService {
             .orElse(PharmacyMedicines.builder().pharmacy(pharmacy).medicine(medicine).build());
         pm.setQuantity(request.getQuantity());
         pm.setPrice(request.getPrice());
-        pm.setAvailable(request.getAvailable());
+        if(request.getQuantity() == null || request.getQuantity() == 0 ) {
+            pm.setAvailable(false);
+        }else {
+        pm.setAvailable(request.getAvailable());}
+
         return pharmacyMapper.toMedicineDto(pharmacyMedicinesRepository.save(pm));
     }
 
@@ -150,7 +154,11 @@ public class PharmacyService {
             .orElseThrow(() -> new ResourceNotFoundException("Pharmacy medicine not found: " + id));
         pm.setQuantity(request.getQuantity());
         pm.setPrice(request.getPrice());
-        pm.setAvailable(request.getAvailable());
+        if(request.getQuantity() == null || request.getQuantity() == 0 ) {
+            pm.setAvailable(false);
+        }else {
+        pm.setAvailable(request.getAvailable());}
+
         return pharmacyMapper.toMedicineDto(pharmacyMedicinesRepository.save(pm));
     }
 

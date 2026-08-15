@@ -40,6 +40,7 @@ public class MedicineService {
         Page<Medicine> results = (name == null || name.isBlank())
             ? medicineRepository.findAll(pageRequest)
             : medicineRepository.findByNameContainingIgnoreCase(name, pageRequest);
+            //TODO return only pharmacist medicines and user own medicines not all 
 
         return PageResponse.from(results.map(medicineMapper::toDto));
     }
