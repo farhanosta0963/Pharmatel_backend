@@ -13,6 +13,7 @@ public class DoseScheduleMapper {
             .prescriptionId(doseSchedule.getPrescription().getId())
             .taken(doseSchedule.getTaken())
             .takenAt(doseSchedule.getTakenAt())
+            .takeAt(doseSchedule.getScheduledAt())
             .patientPersonalNote(doseSchedule.getPatientPersonalNote())
             .createdAt(doseSchedule.getCreatedAt())
             .build();
