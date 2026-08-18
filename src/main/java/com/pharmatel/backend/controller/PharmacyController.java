@@ -106,9 +106,13 @@ public class PharmacyController {
 
     @GetMapping("/{id}/medicines")
     @Operation(summary = "List pharmacy medicines", description = "Returns medicines stocked in a pharmacy.")
-    public PageResponse<PharmacyMedicineDto> medicines(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
+    public PageResponse<PharmacyMedicineDto> medicines(
+        @PathVariable Integer id
+        ,@RequestParam(required = false) String medicineName
+        , @RequestParam(defaultValue = "0") int page
+        , @RequestParam(defaultValue = "20") int size) {
         log.info("Incoming list pharmacy medicines pharmacyId={}", id);
-        return pharmacyService.medicines(id, page, size);
+        return pharmacyService.medicines(id, medicineName, page, size);
     }
 
     @GetMapping("/inventory")

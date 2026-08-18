@@ -54,6 +54,21 @@ public class PrescriptionController {
         log.info("Incoming list prescriptions page={} size={}", page, size);
         return prescriptionService.listAll(user, page, size);
     }
+// findByPharmacy_IdAndDeletedFalseAndMedicine_NameContainingIgnoreCase
+
+    @GetMapping("/prescriptionsForPharmacist")
+    @Operation(summary = "List prescriptions added by pharmacist", description = "Returns paginated prescriptions for pharmacist.   ")
+    public PageResponse<PrescriptionDto> listForPharmacist(
+        @AuthenticationPrincipal AppUserDetails user,
+        @RequestParam(required = false) String medicineName,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size
+    ) {
+        log.info("Incoming list prescriptions page={} size={} username={}", page, size,user.getUsername());
+        return prescriptionService.listAllForPharmacist(user, page, size,medicineName);
+    }
+
+
 
     @GetMapping("/prescriptions/{id}")
     @Operation(summary = "Get prescription by ID", description = "Returns prescription details by UUID.")

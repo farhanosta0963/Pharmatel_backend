@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface MedicineRepository extends JpaRepository<Medicine, Integer> {
     Page<Medicine> findByNameContainingIgnoreCase(String name, Pageable pageable);
-    Optional<Medicine> findByNameIgnoreCase(String name);
+    // Optional<Medicine> findByNameIgnoreCase(String name);
 }

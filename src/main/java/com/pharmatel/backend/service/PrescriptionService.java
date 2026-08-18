@@ -19,10 +19,13 @@ import com.pharmatel.backend.repository.PharmacyRepository;
 import com.pharmatel.backend.repository.PrescriptionRepository;
 import com.pharmatel.backend.security.AppRole;
 import com.pharmatel.backend.security.AppUserDetails;
+import org.springframework.data.domain.Pageable;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +35,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.UUID;
 import java.util.Objects;
 
@@ -291,4 +295,31 @@ public class PrescriptionService {
         prescriptionRepository.save(prescription);
 
     }
-}
+
+    public PageResponse<PrescriptionDto> listAllForPharmacist(AppUserDetails user, int page, int size, String medicineName) {
+         if (user == null || user.getRole() != AppRole.PHARMACY) {
+        throw new ForbiddenException("Only pharmacy users can list all prescriptions");
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Prescription> prescriptions;
+
+        Pharmacy pharmacy = pharmacyRepository.findByAccountId(user.getAccountId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Pharmacy account not found: " + user.getAccountId()));
+
+        if (medicineName != null && !medicineName.trim().isEmpty()) {
+            prescriptions =
+                prescriptionRepository
+                    .findByPharmacy_IdAndDeletedFalseAndMedicine_NameContainingIgnoreCase(
+                        pharmacy.getId(),
+                        medicineName.trim(),
+                        pageable
+                    );
+        } else {
+            prescriptions =
+                prescriptionRepository
+                    .findByPharmacy_IdAndDeletedFalse(pharmacy.getId(), pageable);
+        }
+        return PageResponse.from(prescriptions.map(prescriptionMapper::toDto));
+    }
+
+    }

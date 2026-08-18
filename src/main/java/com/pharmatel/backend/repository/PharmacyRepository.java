@@ -20,7 +20,7 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, Integer> {
     List<Pharmacy> findNearby(@Param("lat") double lat, @Param("lng") double lng);
 
     Optional<Pharmacy> findByAccountId(UUID accountId);
-    Optional<Pharmacy> findByNameIgnoreCase(String name);
+    // Optional<Pharmacy> findByNameIgnoreCase(String name);
 
     @Query(value = """
         select *

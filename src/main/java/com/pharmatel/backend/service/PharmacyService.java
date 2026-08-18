@@ -93,11 +93,12 @@ public class PharmacyService {
         pharmacyRepository.delete(fetch(id));
     }
 
-    public PageResponse<PharmacyMedicineDto> medicines(Integer pharmacyId, int page, int size) {
+    public PageResponse<PharmacyMedicineDto> medicines(Integer pharmacyId, String medicineName, int page, int size) {
         log.info("List pharmacy medicines pharmacyId={}", pharmacyId);
-        Pharmacy pharmacy = fetch(pharmacyId);
-
-        return PageResponse.from(pharmacyMedicinesRepository.findByPharmacyId(pharmacyId, PageRequest.of(page, size)).map(pharmacyMapper::toMedicineDto));
+        if (medicineName == null || medicineName.isEmpty()) {
+            return PageResponse.from(pharmacyMedicinesRepository.findByPharmacyId(pharmacyId, PageRequest.of(page, size)).map(pharmacyMapper::toMedicineDto));
+        }
+        return PageResponse.from(pharmacyMedicinesRepository.findByPharmacyIdAndMedicine_NameContainingIgnoreCase(pharmacyId, medicineName, PageRequest.of(page, size)).map(pharmacyMapper::toMedicineDto));
     
     }
     
