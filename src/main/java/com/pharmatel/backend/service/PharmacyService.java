@@ -27,6 +27,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,7 @@ public class PharmacyService {
     private final MedicineRepository medicineRepository;
     private final PharmacyMedicinesRepository pharmacyMedicinesRepository;
     private final PharmacyMapper pharmacyMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public PageResponse<PharmacyDto> findAll(int page, int size) {
         log.info("Listing pharmacies page={} size={}", page, size);
@@ -80,9 +82,18 @@ public class PharmacyService {
         // ensurePharmacyUser(user);
         log.info("Updating pharmacy id={} by user={}", id, user.getUsername());
         Pharmacy pharmacy = fetch(id);
-        pharmacy.setName(request.getName());
-        pharmacy.setPharmacistName(request.getPharmacistName());
-        pharmacy.setLocation(point(request.getLng(), request.getLat()));
+        if(request.getPassword() != null && !request.getPassword().isEmpty()) {
+            pharmacy.getAccount().setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+        if(request.getName() != null && !request.getName().isEmpty()) {
+            pharmacy.setName(request.getName());
+        }
+        if(request.getPharmacistName() != null && !request.getPharmacistName().isEmpty()) {
+            pharmacy.setPharmacistName(request.getPharmacistName());
+        }
+        if(request.getLat() != null && request.getLng() != null) {
+            pharmacy.setLocation(point(request.getLng(), request.getLat()));
+        }
         return pharmacyMapper.toDto(pharmacyRepository.save(pharmacy));
     }
 

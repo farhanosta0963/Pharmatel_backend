@@ -5,9 +5,15 @@ import lombok.Data;
 
 @Data
 public class UpdatePharmacyRequest {
-    @NotBlank(message = "name is required")
+
+    private String password;
+
+
     private String name;
     private String pharmacistName;
     private Double lat;
     private Double lng;
+
+
+
 }
