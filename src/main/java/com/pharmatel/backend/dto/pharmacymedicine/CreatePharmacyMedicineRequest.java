@@ -13,3 +13,4 @@ public class CreatePharmacyMedicineRequest {
     private Double price;
     private Boolean available;
 }
+    
