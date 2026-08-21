@@ -10,13 +10,22 @@ CREATE TABLE account (
 -- PATIENT
 CREATE TABLE patient (
     id SERIAL PRIMARY KEY,
+    medical_record_number TEXT UNIQUE,
     name TEXT,
     email TEXT,
     phone_number TEXT,
+    date_of_birth DATE,
+    gender TEXT CHECK (gender IN ('MALE', 'FEMALE', 'OTHER', 'UNKNOWN')),
+    height_cm NUMERIC(5,2),
+    weight_kg NUMERIC(5,2),
+    image BYTEA,
+    diagnosis TEXT,
+    allergies TEXT,
     account_id UUID,
     CONSTRAINT fk_patient_account
         FOREIGN KEY (account_id) REFERENCES account(id)
 );
+
 
 -- PHARMACY
 CREATE TABLE pharmacy (

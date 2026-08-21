@@ -2,6 +2,7 @@ package com.pharmatel.backend.service;
 
 import com.pharmatel.backend.dto.PageResponse;
 import com.pharmatel.backend.dto.patient.CreatePatientRequest;
+import com.pharmatel.backend.dto.patient.PatientDetailsRequest;
 import com.pharmatel.backend.dto.patient.PatientDto;
 import com.pharmatel.backend.dto.patient.UpdatePatientRequest;
 import com.pharmatel.backend.entity.Account;
@@ -15,8 +16,12 @@ import com.pharmatel.backend.security.AppRole;
 import com.pharmatel.backend.security.AppUserDetails;
 import com.pharmatel.backend.security.RoleUtil;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Base64;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -112,4 +117,36 @@ public class PatientService {
             throw new ForbiddenException("You cannot access this patient");
         }
     }
+
+
+    public PatientDto addDetails(AppUserDetails user, Integer id, PatientDetailsRequest request) {
+    Patient patient = patientRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Patient not found: " + id));
+
+    if (request.getDateOfBirth() != null) {
+        patient.setDateOfBirth(request.getDateOfBirth());
+    }
+    if (request.getGender() != null) {
+        patient.setGender(Patient.Gender.valueOf(request.getGender().toUpperCase()));
+    }
+    if (request.getHeightCm() != null) {
+        patient.setHeightCm(request.getHeightCm());
+    }
+    if (request.getWeightKg() != null) {
+        patient.setWeightKg(request.getWeightKg());
+    }
+    if (request.getDiagnosis() != null) {
+        patient.setDiagnosis(request.getDiagnosis());
+    }
+    if (request.getAllergies() != null) {
+        patient.setAllergies(request.getAllergies());
+    }
+    if (request.getImageBase64() != null) {
+        patient.setImage(Base64.getDecoder().decode(request.getImageBase64()));
+    }
+
+    Patient saved = patientRepository.save(patient);
+    return patientMapper.toDto(saved);
+}
+
 }

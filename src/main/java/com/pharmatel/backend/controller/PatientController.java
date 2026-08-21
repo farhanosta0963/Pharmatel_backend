@@ -2,6 +2,7 @@ package com.pharmatel.backend.controller;
 
 import com.pharmatel.backend.dto.PageResponse;
 import com.pharmatel.backend.dto.patient.CreatePatientRequest;
+import com.pharmatel.backend.dto.patient.PatientDetailsRequest;
 import com.pharmatel.backend.dto.patient.PatientDto;
 import com.pharmatel.backend.dto.patient.UpdatePatientRequest;
 import com.pharmatel.backend.security.AppUserDetails;
@@ -84,6 +85,9 @@ public class PatientController {
         return patientService.update(user, id, request);
     }
 
+
+
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete patient", description = "Deletes patient record by ID.")
@@ -91,4 +95,19 @@ public class PatientController {
         log.info("Incoming delete patient id={}", id);
         patientService.delete(user, id);
     }
+
+
+
+
+    @PostMapping("/{id}/details")
+    @Operation(summary = "Add patient details", description = "Adds or fills in patient profile details by ID.")
+    public PatientDto addDetails(
+        @AuthenticationPrincipal AppUserDetails user,
+        @PathVariable Integer id,
+        @Valid @RequestBody PatientDetailsRequest request
+    ) {
+        log.info("Incoming add patient details id={}", id);
+        return patientService.addDetails(user, id, request);
+    }
+
 }
