@@ -99,15 +99,14 @@ public class PatientController {
 
 
 
-    @PostMapping("/{id}/details")
+    @PostMapping("/details")
     @Operation(summary = "Add patient details", description = "Adds or fills in patient profile details by ID.")
     public PatientDto addDetails(
         @AuthenticationPrincipal AppUserDetails user,
-        @PathVariable Integer id,
         @Valid @RequestBody PatientDetailsRequest request
     ) {
-        log.info("Incoming add patient details id={}", id);
-        return patientService.addDetails(user, id, request);
+        log.info("Incoming add patient details for this account id={}", user.getAccountId());
+        return patientService.addDetails(user, request);
     }
 
 }

@@ -119,9 +119,9 @@ public class PatientService {
     }
 
 
-    public PatientDto addDetails(AppUserDetails user, Integer id, PatientDetailsRequest request) {
-    Patient patient = patientRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Patient not found: " + id));
+    public PatientDto addDetails(AppUserDetails user,  PatientDetailsRequest request) {
+    Patient patient = patientRepository.findByAccountId(user.getAccountId())
+        .orElseThrow(() -> new EntityNotFoundException("Patient not found: " + user.getAccountId()));
 
     if (request.getDateOfBirth() != null) {
         patient.setDateOfBirth(request.getDateOfBirth());
