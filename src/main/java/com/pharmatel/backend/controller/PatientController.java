@@ -109,4 +109,6 @@ public class PatientController {
         return patientService.addDetails(user, request);
     }
 
+   
+
 }
