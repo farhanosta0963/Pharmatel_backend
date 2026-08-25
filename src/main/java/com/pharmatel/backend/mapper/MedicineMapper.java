@@ -18,6 +18,8 @@ public class MedicineMapper {
             .byPharmacist(medicine.getByPharmacist()==null ? null :medicine.getByPharmacist())
             .accountId(medicine.getAccount() == null ? null : medicine.getAccount().getId())
             .drugComposition(medicine.getDrugComposition() == null ? null : medicine.getDrugComposition())
+            .sellPrice(medicine.getSellPrice())
+            .buyPrice(medicine.getBuyPrice())
             .build();
     }
 }

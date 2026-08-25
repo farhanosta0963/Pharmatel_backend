@@ -31,11 +31,11 @@ public class Medicine {
 
     private String name;
 
-    // @Column(name = "buy_price")
-    // private String buyPrice;
+    @Column(name = "buy_price")
+    private String buyPrice;
 
-    // @Column(name = "sell_price")
-    // private String sellPrice;
+    @Column(name = "sell_price")
+    private String sellPrice;
 
     @Column(name = "pharmaceutical_form")
     private String pharmaceuticalForm;
